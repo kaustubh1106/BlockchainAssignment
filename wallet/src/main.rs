@@ -1,11 +1,10 @@
 use secp256k1::rand::rngs::OsRng;
 use secp256k1::{Secp256k1,SecretKey,Message};
-// use secp256k1::ecdsa::Signature;
 use serde::{ Deserialize, Serialize};
 use std::fs;
 use serde_json;
 use std::str::FromStr;
-
+use clap::Parser;
 use secp256k1::hashes::{sha256, Hash};
 
 const WALLET_FILE: &str = "wallet.json";
@@ -15,6 +14,12 @@ struct Wallet {
     secret_key: String,
     public_key: String,
 }
+
+#[derive(Parser)]
+struct Opts {
+    subcmd: String,
+}
+
 fn generate()-> Wallet {
     let secp = Secp256k1::new();
     let (secret_key, public_key) = secp.generate_keypair(&mut OsRng);
@@ -53,6 +58,8 @@ fn verify(message:&str,signature:&str,public_key:&str)->bool{
 fn main() {
     println!("Hello, world!");
     generate();
+    let opts = Opts::parse();
+    println!("{}",opts.subcmd);
     match show_wallet() {
         Some(key) => println!("Public Key: {}", key),
         None => println!("No wallet found. Create one using `generate`.")
