@@ -4,7 +4,7 @@ use serde::{ Deserialize, Serialize};
 use std::fs;
 use serde_json;
 use std::str::FromStr;
-use clap::Parser;
+use clap::{ Parser, Subcommand};
 use secp256k1::hashes::{sha256, Hash};
 
 const WALLET_FILE: &str = "wallet.json";
@@ -16,10 +16,26 @@ struct Wallet {
 }
 
 #[derive(Parser)]
-struct Opts {
-    subcmd: String,
+struct CLI {
+    #[clap(subcommand)]
+    subcmd: Commandenum,
 }
 
+#[derive(Subcommand)]
+enum Commandenum {
+    Generate,
+    Show,
+    Sign {
+        message: String,
+    },
+    Verify {
+        message: String,
+        signature: String,
+        public_key: String,
+    },
+}
+
+//3045022100f79a8a79a1dbf289552430ede2d0f5cb9985fe7b9fcd555eaa75ba72404655ea02205dfe9d400e7cfdadcef780c34289a7bb3f5fddab314505c5b259327a980f755a
 fn generate()-> Wallet {
     let secp = Secp256k1::new();
     let (secret_key, public_key) = secp.generate_keypair(&mut OsRng);
@@ -56,13 +72,38 @@ fn verify(message:&str,signature:&str,public_key:&str)->bool{
 }
 
 fn main() {
-    println!("Hello, world!");
-    generate();
-    let opts = Opts::parse();
-    println!("{}",opts.subcmd);
-    match show_wallet() {
-        Some(key) => println!("Public Key: {}", key),
-        None => println!("No wallet found. Create one using `generate`.")
-    }   
+    println!("please run: crago run -- <command>");
+    let cli = CLI::parse();
+    match cli.subcmd {
+        Commandenum::Generate => {
+            generate();
+        }
+        Commandenum::Show => {
+           match show_wallet() {
+               Some(key) => println!("Public Key: {}", key),
+               None => println!("No wallet found")
+           }
+        }
+        Commandenum::Sign { message } => {
+            let wallet = fs::read_to_string(WALLET_FILE).unwrap();
+            let wallet: Wallet = serde_json::from_str(&wallet).unwrap();
+            let check = sign(&message,&wallet.secret_key) ;
+            if check.is_empty(){
+                println!("Error signing message");
+            }else{
+                println!("Signature: {}", check);
+            }
+        }
+        Commandenum::Verify { message, signature, public_key } => {
+
+            let check = verify(&message, &signature, &public_key);
+            if check {
+                println!("Signature is valid");
+            } else {
+                println!("Signature is invalid");
+                
+            }
+        }
+    }
 }
 
