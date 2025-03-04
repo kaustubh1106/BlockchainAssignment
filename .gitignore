@@ -34,3 +34,21 @@ token_dapp/yarn-debug.log*
 wallet/yarn-debug.log*
 token_dapp/yarn-error.log*
 wallet/yarn-error.log*
+
+hardhat_test/node_modules/
+hardhat_test/.env
+
+# Hardhat files
+hardhat_test/cache
+hardhat_test/artifacts
+
+# TypeChain files
+hardhat_test/typechain
+hardhat_test/typechain-types
+
+# solidity-coverage files
+hardhat_test/coverage
+hardhat_test/coverage.json
+
+# Hardhat Ignition default folder for deployments against a local node
+hardhat_testignition/deployments/chain-31337
