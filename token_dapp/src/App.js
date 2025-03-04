@@ -95,22 +95,7 @@ const App = () => {
         }
     };
 
-    // const listenToEvents = (contract) => {
-    //     contract.on("TokensMinted", (minter, to, amount) => {
-    //         toast.info(`Minted ${ethers.utils.formatEther(amount)} tokens to ${to}`);
-    //         getBalance(account);
-    //     });
 
-    //     contract.on("TokensBurned", (burner, amount) => {
-    //         toast.warning(`${burner} burned ${ethers.utils.formatEther(amount)} tokens`);
-    //         getBalance(account);
-    //     });
-
-    //     contract.on("AirdropClaimed", (user, amount) => {
-    //         toast.success(`${user} claimed an airdrop of ${ethers.utils.formatEther(amount)} tokens!`);
-    //         getBalance(account);
-    //     });
-    // };
 
     return (
         <div className="app">
