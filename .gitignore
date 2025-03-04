@@ -1,0 +1,36 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+token_dapp/node_modules/
+wallet/node_modules/
+token_dapp/.pnp
+wallet/.pnp
+token_dapp/.pnp.js
+wallet/.pnp.js
+
+# testing
+token_dapp/coverage/
+wallet/coverage/
+
+# production
+token_dapp/build/
+wallet/build/
+token_dapp/.env
+# misc
+token_dapp/.DS_Store
+wallet/.DS_Store
+token_dapp/.env.local
+wallet/.env.local
+token_dapp/.env.development.local
+wallet/.env.development.local
+token_dapp/.env.test.local
+wallet/.env.test.local
+token_dapp/.env.production.local
+wallet/.env.production.local
+
+token_dapp/npm-debug.log*
+wallet/npm-debug.log*
+token_dapp/yarn-debug.log*
+wallet/yarn-debug.log*
+token_dapp/yarn-error.log*
+wallet/yarn-error.log*
